@@ -8,6 +8,7 @@ import {
   ScrollView,
   Text,
   TouchableHighlight,
+  ActivityIndicator,
 } from 'react-native';
 import Drink from '../Drink/Drink';
 import {Appbar, Searchbar} from 'react-native-paper';
@@ -100,8 +101,8 @@ const ListViewController = () => {
         </Appbar.Header>
         <ScrollView style={styles.scrollView}>
           {filteredData.length == 0 ? (
-            <Text style={{marginLeft: '35%', marginTop: 30}}>
-              No items found
+            <Text style={{marginLeft: '47%', marginTop: 50}}>
+              <ActivityIndicator size="large" color="#00ff00" />
             </Text>
           ) : (
             <View></View>
