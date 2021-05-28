@@ -13,6 +13,7 @@ import Drink from '../Drink/Drink';
 import {Appbar, Searchbar} from 'react-native-paper';
 import {SwipeRow} from 'react-native-swipe-list-view';
 import DrinkDetail from '../DrinkDetail/DrinkDetail';
+import AddDrink from '../AddDrink';
 
 const searchURL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=f';
 
@@ -20,6 +21,7 @@ const ListViewController = () => {
   const [drinks, setDrinks] = useState([]);
   const [drink, setDrink] = useState(null);
   const [showDrinkDetail, setShowDrinkDetail] = useState(false);
+  const [addDrink, setAddDrink] = useState(false);
 
   useEffect(() => {
     fetch(searchURL)
@@ -44,6 +46,33 @@ const ListViewController = () => {
     setDrinks(filteredList);
   };
 
+  const closeAddDrinkHandler = () => {
+    setAddDrink(!addDrink);
+  };
+
+
+  const addDrinkHandler = (title, subtitle) => {
+    let newDrink = {
+      strDrink: title,
+      strCategory: subtitle,
+      strDrinkThumb: null,
+    };
+    let allDrinks = [...drinks];
+    allDrinks.unshift(newDrink);
+    
+    setDrinks(allDrinks);
+  };
+
+  if (addDrink) {
+    return (
+      <AddDrink
+        close={closeAddDrinkHandler.bind(this)}
+        addBookHandler={addDrinkHandler.bind(this)}
+      />
+    );
+  }
+
+
   if (showDrinkDetail) {
     return (
       <View>
@@ -62,6 +91,13 @@ const ListViewController = () => {
 
     return (
       <SafeAreaView>
+          <Appbar.Header>
+         
+            <View>
+              <Appbar.Action icon="plus" onPress={() => setAddDrink(!addDrink)} />
+            </View>
+          
+        </Appbar.Header>
         <ScrollView style={styles.scrollView}>
           {filteredData.length == 0 ? (
             <Text style={{marginLeft: '35%', marginTop: 30}}>
